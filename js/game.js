@@ -96,6 +96,9 @@ function firstPlayer(){
 
 }
 
+var tick = new Audio();
+tick.src = './timer.mp3'
+
 function showCountdown(callback){
 	var timer = 3;
 	updateTimeout(true);
@@ -115,6 +118,8 @@ function showCountdown(callback){
 
 }
 
+
+
 function selectSignal(){
 	emptyCountdown();
 	var wait = $('.wait');
@@ -123,19 +128,31 @@ function selectSignal(){
 	var signal = $(random(container.children().toArray()));
 	signal.show().siblings().hide();
 	container.show().siblings().hide();
-	setTimeout(showReadyButton, 5000);
+	var timer = 5;
+	tick.play();
+	var interval = setInterval(function(){
+		timer--;
+		if (timer == 0) {
+			clearInterval(interval);
+		}
+
+	}, 1000);
+	setTimeout(function(){
+		showReadyButton(signal);
+	}, 5000);
+
 
 };
 
-function showReadyButton(){
+function showReadyButton(signal){
 	$('.ready').show().siblings().hide();
-	$('.ready h2').click(function(){
+	$('.review').html(signal.clone().removeClass('vcenter'));
+}
+$('.ready h2').click(function(){
 		gameRef.update({
 			start:true
 		});
 	});
-
-}
 
 function startGame(){
 	//showCountdown(selectSignal);

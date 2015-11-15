@@ -15,6 +15,9 @@ function updateTimeout(){
 		clearTimeout(timeoutId);
 	}
 	timeoutId = setTimeout(function(){
+		gameRef.update({
+			'players': 0
+		})
 		return window.location.assign('http://intersection-game.lisaot.to');
 	}, 10000);
 }

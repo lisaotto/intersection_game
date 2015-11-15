@@ -27,7 +27,7 @@ function updateTimeout(change){
 			'players': 0
 		})
 		return window.location.assign('http://intersection-game.lisaot.to');
-	}, 10000);
+	}, 300000);
 }
 
 var url = window.location.href

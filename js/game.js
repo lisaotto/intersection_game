@@ -18,7 +18,7 @@ function updateTimeout(){
 	}
 
 	gameRef.update({
-		'dummmy': Math.round(1000000*Math.random())
+		'dummy': Math.round(1000000*Math.random())
 	});
 	timeoutId = setTimeout(function(){
 		gameRef.update({
@@ -43,7 +43,7 @@ ref.on('child_added', function(s){
 		gameRef = new Firebase("https://intersection-game.firebaseio.com/games/" + s.key());
 		gameRef.update({
 			'players' : players, 
-			'dummmy': Math.round(1000000*Math.random())
+			'dummy': Math.round(1000000*Math.random())
 		});
 		 playersRef = gameRef.child('players');
 		 startRef = gameRef.child('start');

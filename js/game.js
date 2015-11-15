@@ -8,6 +8,18 @@ var startRef = null;
 
 var players = 0; 
 
+var timeoutId; 
+
+function updateTimeout(){
+	if (timeoutId){
+		clearTimeout(timeoutId);
+	}
+	timeoutId = setTimeout(function(){
+		return window.location.assign('http://intersection-game.lisaot.to');
+	}, 10000);
+}
+
+updateTimeout();
 
 var url = window.location.href
 url = url.split('/');
@@ -16,6 +28,10 @@ url = url[url.length-1];
 ref.on('child_added', function(s){
 	var game = s.val();
 	if (game.url == url) {
+		if (game.players && game.players >= 2){
+			return window.location.assign('http://intersection-game.lisaot.to');
+		}
+
 		players = game.players ? game.players + 1 : 1
 		gameRef = new Firebase("https://intersection-game.firebaseio.com/games/" + s.key());
 		gameRef.update({
@@ -24,12 +40,9 @@ ref.on('child_added', function(s){
 		 playersRef = gameRef.child('players');
 		 startRef = gameRef.child('start');
 
-		window.onbeforeunload = function() {
-			players--
-			gameRef.update({
-				'players' : players
-			});
-		}
+		gameRef.onDisconnect().update({
+			'players': players-1
+		});
 
 		playersRef.on('value', function(s){
 			players = s.val();
@@ -69,6 +82,7 @@ function firstPlayer(){
 
 function showCountdown(callback){
 	var timer = 3;
+	updateTimeout();
 	$('.countdown').show().siblings().hide();
 	var interval = setInterval(function(){
 		$('.countdown h1').text(timer + '...');

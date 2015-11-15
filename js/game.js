@@ -28,8 +28,6 @@ function updateTimeout(){
 	}, 10000);
 }
 
-updateTimeout();
-
 var url = window.location.href
 url = url.split('/');
 url = url[url.length-1];

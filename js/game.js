@@ -12,14 +12,16 @@ var timeoutId;
 
 var dummyRef = null;
 
-function updateTimeout(){
+function updateTimeout(change){
 	if (timeoutId){
 		clearTimeout(timeoutId);
 	}
-
-	gameRef.update({
-		'dummy': Math.round(1000000*Math.random())
-	});
+	if(change){
+		gameRef.update({
+			'dummy': Math.round(1000000*Math.random())
+		});
+	}
+	
 	timeoutId = setTimeout(function(){
 		gameRef.update({
 			'players': 0
@@ -65,7 +67,7 @@ ref.on('child_added', function(s){
 		});
 
 		dummyRef.on('value', function(s){
-			updateTimeout();
+			updateTimeout(false);
 
 		});
 
@@ -96,7 +98,7 @@ function firstPlayer(){
 
 function showCountdown(callback){
 	var timer = 3;
-	updateTimeout();
+	updateTimeout(true);
 	$('.countdown').show().siblings().hide();
 	var interval = setInterval(function(){
 		$('.countdown h1').text(timer + '...');
